@@ -1,0 +1,40 @@
+@page
+@model MultilingualMenuApp.Pages.Admin.LanguageEditModel
+@{
+    ViewData["Title"] = Model.Language.Id == 0 ? "Add Language" : "Edit Language";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+
+    <form method="post">
+        <input type="hidden" asp-for="Language.Id" />
+        
+        <div class="mb-3">
+            <label asp-for="Language.Code" class="form-label">Language Code</label>
+            <input asp-for="Language.Code" class="form-control" placeholder="e.g., en, tr, es" />
+            <span asp-validation-for="Language.Code" class="text-danger"></span>
+            <small class="form-text text-muted">ISO 639-1 language code (2 letters)</small>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Language.Name" class="form-label">Language Name</label>
+            <input asp-for="Language.Name" class="form-control" placeholder="e.g., English, Türkçe" />
+            <span asp-validation-for="Language.Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input asp-for="Language.IsActive" class="form-check-input" type="checkbox" />
+            <label asp-for="Language.IsActive" class="form-check-label">Active</label>
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-page="./Languages" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

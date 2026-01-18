@@ -1,0 +1,49 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home - Multilingual Menu Application";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Multilingual Menu Application</h1>
+    <p class="lead">A .NET 6 application for managing menu content in multiple languages.</p>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-people"></i> Customer View</h5>
+                <p class="card-text">View the menu in your preferred language. Select from available languages and browse menu items.</p>
+                <a asp-page="/Customer/Menu" class="btn btn-primary">View Menu</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-gear"></i> Admin Panel</h5>
+                <p class="card-text">Manage menu items, translations, and supported languages. Add, edit, or delete content dynamically.</p>
+                <a asp-page="/Admin/Menus" class="btn btn-success">Manage Menus</a>
+                <a asp-page="/Admin/Languages" class="btn btn-info">Manage Languages</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h5 class="card-title">Features</h5>
+                <ul>
+                    <li>Dynamic language selection for customers</li>
+                    <li>MSSQL database for storing menu items and translations</li>
+                    <li>Admin interface for managing content without code changes</li>
+                    <li>Automatic fallback to default content when translations are missing</li>
+                    <li>Built with .NET 6 and Entity Framework Core</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

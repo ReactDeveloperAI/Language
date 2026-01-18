@@ -1,0 +1,80 @@
+@page
+@model MultilingualMenuApp.Pages.Admin.MenuEditModel
+@{
+    ViewData["Title"] = Model.Menu.Id == 0 ? "Add Menu Item" : "Edit Menu Item";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+
+    <form method="post">
+        <input type="hidden" asp-for="Menu.Id" />
+        
+        <h3>Default Content (Fallback)</h3>
+        <div class="mb-3">
+            <label asp-for="Menu.DefaultName" class="form-label">Default Name</label>
+            <input asp-for="Menu.DefaultName" class="form-control" placeholder="Menu item name" />
+            <span asp-validation-for="Menu.DefaultName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Menu.DefaultDescription" class="form-label">Default Description</label>
+            <textarea asp-for="Menu.DefaultDescription" class="form-control" rows="3" placeholder="Menu item description"></textarea>
+            <span asp-validation-for="Menu.DefaultDescription" class="text-danger"></span>
+        </div>
+
+        <hr />
+
+        <h3>Translations</h3>
+        <p class="text-muted">Add translations for each language. Leave empty to use default content.</p>
+
+        @for (int i = 0; i < Model.Menu.Translations.Count; i++)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <input type="hidden" asp-for="Menu.Translations[i].Id" />
+                    <input type="hidden" asp-for="Menu.Translations[i].MenuId" />
+                    
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label asp-for="Menu.Translations[i].Language" class="form-label">Language</label>
+                            <select asp-for="Menu.Translations[i].Language" class="form-select">
+                                <option value="">Select Language</option>
+                                @foreach (var lang in Model.AvailableLanguages)
+                                {
+                                    <option value="@lang.Code">@lang.Name (@lang.Code)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-9">
+                            <label asp-for="Menu.Translations[i].Name" class="form-label">Name</label>
+                            <input asp-for="Menu.Translations[i].Name" class="form-control" placeholder="Translated name" />
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label asp-for="Menu.Translations[i].Description" class="form-label">Description</label>
+                            <textarea asp-for="Menu.Translations[i].Description" class="form-control" rows="2" placeholder="Translated description"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" asp-page-handler="RemoveTranslation" asp-route-index="@i" class="btn btn-sm btn-danger mt-2">Remove Translation</button>
+                </div>
+            </div>
+        }
+
+        <div class="mb-3">
+            <button type="submit" asp-page-handler="AddTranslation" class="btn btn-secondary">Add Translation</button>
+        </div>
+
+        <hr />
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Save Menu Item</button>
+            <a asp-page="./Menus" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
