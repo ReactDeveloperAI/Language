@@ -177,15 +177,15 @@ MultilingualMenuApp/
 - Use the SQL script instead of migrations
 
 ### Build Errors
-- Ensure .NET 6 SDK is installed: `dotnet --version`
+- Ensure .NET 8 SDK is installed: `dotnet --version`
 - Clean and rebuild: `dotnet clean && dotnet build`
 - Restore packages: `dotnet restore`
 
 ## Technologies Used
 
-- **.NET 6**: Web application framework
+- **.NET 8**: Web application framework
 - **ASP.NET Core Razor Pages**: UI framework
-- **Entity Framework Core 6**: ORM for database access
+- **Entity Framework Core 8**: ORM for database access
 - **SQL Server**: Database engine
 - **Bootstrap 5**: CSS framework for responsive UI
 - **Bootstrap Icons**: Icon library
