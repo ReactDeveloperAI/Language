@@ -1,0 +1,60 @@
+@page
+@model MultilingualMenuApp.Pages.Admin.LanguagesModel
+@{
+    ViewData["Title"] = "Manage Languages";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <p>Manage supported languages in the system.</p>
+
+    <div class="row mb-3">
+        <div class="col">
+            <a asp-page="./LanguageEdit" class="btn btn-primary">Add New Language</a>
+            <a asp-page="/Index" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+
+    @if (Model.Languages.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var language in Model.Languages)
+                {
+                    <tr>
+                        <td>@language.Code</td>
+                        <td>@language.Name</td>
+                        <td>
+                            @if (language.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactive</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-page="./LanguageEdit" asp-route-id="@language.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <form method="post" style="display:inline;" asp-page-handler="Delete" asp-route-id="@language.Id">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this language?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">No languages found. Add your first language!</div>
+    }
+</div>

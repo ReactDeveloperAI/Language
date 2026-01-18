@@ -1,0 +1,73 @@
+@page
+@model MultilingualMenuApp.Pages.Customer.MenuModel
+@{
+    ViewData["Title"] = "Our Menu";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>@ViewData["Title"]</h1>
+            <p class="text-muted">Browse our delicious menu items</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-globe"></i> Language: @Model.CurrentLanguageName
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                    @foreach (var lang in Model.AvailableLanguages)
+                    {
+                        <li>
+                            <form method="post" asp-page-handler="ChangeLanguage" asp-route-languageCode="@lang.Code" style="display:inline;">
+                                <button type="submit" class="dropdown-item @(Model.CurrentLanguage == lang.Code ? "active" : "")">
+                                    @lang.Name (@lang.Code)
+                                </button>
+                            </form>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.MenuItems.Any())
+    {
+        <div class="row">
+            @foreach (var menu in Model.MenuItems)
+            {
+                var translation = menu.Translations.FirstOrDefault(t => t.Language == Model.CurrentLanguage);
+                var displayName = translation?.Name ?? menu.DefaultName;
+                var displayDescription = translation?.Description ?? menu.DefaultDescription;
+
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@displayName</h5>
+                            <p class="card-text">@displayDescription</p>
+                            @if (translation == null && menu.Translations.Any())
+                            {
+                                <small class="text-muted">
+                                    <i class="bi bi-info-circle"></i> Translation not available, showing default content
+                                </small>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <h4>No menu items available</h4>
+            <p>Please check back later or contact the administrator to add menu items.</p>
+        </div>
+    }
+
+    <div class="row mt-4">
+        <div class="col">
+            <a asp-page="/Index" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+</div>
